@@ -712,3 +712,8 @@ In real enterprise projects:
 * Separate values files are maintained for Dev, Stage, and Prod
 * Helm rollback is heavily used during failed deployments
 * HPA and Ingress are common production requirements
+
+# Summary 
+> Implemented an Employee Management API using Python Flask and containerized the application using Docker. Deployed the application into Kubernetes with ConfigMap, Service, Ingress, HPA, readiness/liveness probes, and resource limits to ensure operational readiness and scalability.
+
+> Later converted all Kubernetes manifests into reusable Helm templates to build a Golden Path Platform Engineering solution with multi-environment support (dev, stage, prod), standardized deployments, and reusable configuration abstraction.
