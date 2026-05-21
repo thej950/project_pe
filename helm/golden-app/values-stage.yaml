@@ -1,0 +1,17 @@
+replicaCount: 2
+
+config:
+  environment: staging
+
+resources:
+  requests:
+    cpu: "150m"
+    memory: "192Mi"
+
+  limits:
+    cpu: "300m"
+    memory: "384Mi"
+
+hpa:
+  minReplicas: 2
+  maxReplicas: 5

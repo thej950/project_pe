@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: employee-api-config
+  namespace: employee-ns
+
+data:
+  ENVIRONMENT: "development"
+  PLATFORM_TEAM: "platform-engineering"
+  VERSION: "v1"

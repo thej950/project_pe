@@ -1,0 +1,36 @@
+replicaCount: 2
+
+image:
+  repository: thej-api-image
+  tag: latest
+  pullPolicy: Never
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 5000
+
+config:
+  environment: development
+  platformTeam: platform-engineering
+  version: v1
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+
+  limits:
+    cpu: "200m"
+    memory: "256Mi"
+
+ingress:
+  enabled: true
+  className: nginx
+  host: employee.local
+
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  cpuUtilization: 50

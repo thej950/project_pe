@@ -1,0 +1,8 @@
+replicaCount: 1
+
+config:
+  environment: development
+
+hpa:
+  minReplicas: 1
+  maxReplicas: 2

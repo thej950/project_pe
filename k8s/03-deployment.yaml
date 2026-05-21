@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: employee-api-deployment
+  namespace: employee-ns
+  labels:
+    app: employee-api
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: employee-api
+
+  template:
+    metadata:
+      labels:
+        app: employee-api
+
+    spec:
+      containers:
+      - name: employee-api-container
+
+        image: thej-api-image:latest
+        imagePullPolicy: Never
+
+        ports:
+        - containerPort: 5000
+
+        envFrom:
+        - configMapRef:
+            name: employee-api-config
+
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+
+          initialDelaySeconds: 5
+          periodSeconds: 10
+
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+
+          initialDelaySeconds: 15
+          periodSeconds: 20
