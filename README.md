@@ -112,7 +112,7 @@ minikube ip
 {"deployment_time":"2026-05-20 08:28:55.207011","environment_name":"development","hostname":"employee-api-deployment-576458f995-hjbvr","platform_team":"platform-engineering","version":"v1"}
 # /Employees 
 ➜  k8s curl http://employee.local/employees
-{"employees":[{"department":"DevOps","employee_id":101,"employee_name":"Rahul Sharma"},{"department":"Platform Engineering","employee_id":102,"employee_name":"Anjali Verma"},{"department":"Cloud Operations","employee_id":103,"employee_name":"Kiran Kumar"}]}
+{"employees":[{"department":"DevOps","employee_id":101,"employee_name":"Navathej Annam"},{"department":"Platform Engineering","employee_id":102,"employee_name":"Anjali Verma"},{"department":"Cloud Operations","employee_id":103,"employee_name":"Kiran Kumar"}]}
 ➜  k8s
 ```
 
