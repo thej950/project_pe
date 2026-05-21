@@ -1,0 +1,207 @@
+# -----------------------------
+# Docker Commands
+# -----------------------------
+
+docker build -t thej-api-image .
+# Build Docker image from Dockerfile
+
+docker run -d -p 5000:5000 thej-api-image
+# Run container in background
+
+docker ps
+# Check running containers
+
+curl http://localhost:5000/
+# Test root endpoint
+
+curl http://localhost:5000/employees
+# Test employee endpoint
+
+curl http://localhost:5000/health
+# Test health endpoint
+
+curl http://localhost:5000/info
+# Test info endpoint
+
+
+# -----------------------------
+# Minikube Commands
+# -----------------------------
+
+minikube start
+# Start Minikube cluster
+
+minikube start --memory=4096 --cpus=2
+# Start Minikube with custom CPU and memory
+
+kubectl get nodes
+# Verify Kubernetes node status
+
+eval $(minikube docker-env)
+# Use Minikube Docker daemon
+
+docker build -t thej-api-image:latest ./app
+# Build image directly inside Minikube
+
+minikube addons enable ingress
+# Enable NGINX ingress controller
+
+minikube addons enable metrics-server
+# Enable metrics server for HPA
+
+minikube addons list
+# Check enabled addons
+
+
+# -----------------------------
+# Kubernetes Commands
+# -----------------------------
+
+kubectl create namespace employee-ns
+# Create Kubernetes namespace
+
+kubectl apply -f k8s/
+# Deploy all Kubernetes YAML files
+
+kubectl get pods -n employee-ns
+# Check running pods
+
+kubectl get svc -n employee-ns
+# Check services
+
+kubectl get ingress -n employee-ns
+# Check ingress resources
+
+kubectl get hpa -n employee-ns
+# Check autoscaling status
+
+minikube ip
+# Get Minikube cluster IP
+
+curl http://employee.local
+# Test application through ingress
+
+curl http://employee.local/health
+# Test health endpoint in cluster
+
+curl http://employee.local/info
+# Test info endpoint in cluster
+
+curl http://employee.local/employees
+# Test employees endpoint in cluster
+
+
+# -----------------------------
+# HPA Load Testing
+# -----------------------------
+
+kubectl run -i --tty load-generator \
+--rm --image=busybox \
+-n employee-ns -- /bin/sh
+# Create temporary pod for load testing
+
+while true; do wget -q -O- http://employee-api-service; done
+# Generate continuous traffic
+
+kubectl get hpa -n employee-ns -w
+# Watch HPA scaling live
+
+kubectl get pods -n employee-ns -w
+# Watch pod scaling live
+
+
+# -----------------------------
+# Helm Commands
+# -----------------------------
+
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+# Install Helm
+
+helm version
+# Verify Helm installation
+
+mkdir helm
+# Create Helm workspace folder
+
+cd helm
+# Move into Helm directory
+
+helm create golden-app
+# Create default Helm chart
+
+cd golden-app/templates
+# Move into templates directory
+
+rm -rf *
+# Remove default Helm templates
+
+kubectl create namespace employee-ns
+# Create namespace for Helm deployment
+
+touch deployment.yaml
+# Create deployment template
+
+touch service.yaml
+# Create service template
+
+touch configmap.yaml
+# Create ConfigMap template
+
+touch ingress.yaml
+# Create ingress template
+
+touch hpa.yaml
+# Create HPA template
+
+helm lint golden-app
+# Validate Helm chart syntax
+
+helm install golden-release ./golden-app -n employee-ns
+# Install Helm release
+
+helm install dev-release ./golden-app \
+-f golden-app/values-dev.yaml \
+-n employee-ns
+# Deploy dev environment
+
+helm install stage-release ./golden-app \
+-f golden-app/values-stage.yaml \
+-n employee-ns
+# Deploy stage environment
+
+helm install prod-release ./golden-app \
+-f golden-app/values-prod.yaml \
+-n employee-ns
+# Deploy prod environment
+
+helm list -n employee-ns
+# Check releases in namespace
+
+helm list -A
+# Check all Helm releases
+
+helm status golden-release -n employee-ns
+# Check release status
+
+helm upgrade golden-release ./golden-app -n employee-ns
+# Upgrade Helm release
+
+helm upgrade golden-release ./golden-app \
+-f golden-app/values-prod.yaml \
+-n employee-ns
+# Upgrade release using values file
+
+helm history golden-release -n employee-ns
+# Check release revision history
+
+helm rollback golden-release 1 -n employee-ns
+# Rollback to previous revision
+
+helm uninstall golden-release -n employee-ns
+# Remove Helm release
+
+helm template golden-release ./golden-app
+# Generate Kubernetes YAML from Helm templates
+
+helm package golden-app
+# Package Helm chart into .tgz
